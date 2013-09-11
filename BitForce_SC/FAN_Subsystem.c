@@ -43,10 +43,11 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	volatile int iTemp2 = __AVR32_A2D_GetTemp2();
 	volatile int iTempAveraged = (iTemp1 > iTemp2) ? iTemp1 : iTemp2; // (iTemp2 + iTemp1) / 2;
 	
-	if (iTempAveraged > 90)
+	if (iTempAveraged > 80)
 	{
 		// Holy jesus! We're in a critical situation...
 		GLOBAL_CRITICAL_TEMPERATURE = TRUE;
+			
 	}
 	else
 	{
@@ -68,7 +69,8 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 		else
 		{
 			// If we're here, it means we're not critical anymore
-			GLOBAL_CRITICAL_TEMPERATURE = FALSE;			
+			GLOBAL_CRITICAL_TEMPERATURE = FALSE;
+						
 		}
 	}	
 	
@@ -89,36 +91,31 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	}
 	
 	// Ok, now set the FAN speed according to our setting
-	if (FAN_ActualState == FAN_STATE_VERY_SLOW)
+	switch (FAN_ActualState)
 	{
+	case FAN_STATE_VERY_SLOW:
 		// Set the fan speed
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_SLOW);
 		return;
-	}
-	else if (FAN_ActualState == FAN_STATE_SLOW)
-	{
-		// Set the fan speed
+		break;
+	case FAN_STATE_SLOW:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_SLOW);
 		return;
-	}
-	else if (FAN_ActualState == FAN_STATE_MEDIUM)
-	{
-		// Set the fan speed
+		break;
+	case FAN_STATE_MEDIUM:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_MEDIUM);
-		return;		
-	}
-	else if (FAN_ActualState == FAN_STATE_FAST)	
-	{
-		// Set the fan speed
+		return;
+		break;
+	case FAN_STATE_FAST:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_FAST);
-		return;		
-	}
-	else if (FAN_ActualState == FAN_STATE_VERY_FAST)
-	{
-		// Set the fan speed
+		return;
+		break;
+	case FAN_STATE_VERY_FAST:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_FAST);
-		return;		
+		return;
+		break;
 	}
+	
 	
 	// We're in AUTO mode... There are rules to respect form here...
 	if (iTempAveraged <= 30)
