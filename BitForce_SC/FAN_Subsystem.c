@@ -70,30 +70,30 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	#if defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_REMAIN_FULL_SPEED);
 		return;
+	#else if defined(FAN_SUBSYSTEM_AUTO_MODE)
+	
+		// We're in AUTO mode... There are rules to respect form here...
+		if (iTempHigh <= 32)
+		{
+			FAN_ActualState = FAN_STATE_VERY_SLOW;
+		}
+		else if ((iTempHigh > 35) && (iTempHigh <= 42))
+		{
+			FAN_ActualState = FAN_STATE_SLOW;
+		}
+		else if ((iTempHigh > 45) && (iTempHigh <= 53))
+		{
+			FAN_ActualState = FAN_STATE_MEDIUM;
+		}
+		else if ((iTempHigh > 57) && (iTempHigh <= 67))
+		{
+			FAN_ActualState = FAN_STATE_FAST;
+		}
+		else if (iTempHigh > 70)
+		{
+			FAN_ActualState = FAN_STATE_VERY_FAST;
+		}
 	#endif
-	
-	// We're in AUTO mode... There are rules to respect form here...
-	if (iTempHigh <= 32)
-	{
-		FAN_ActualState = FAN_STATE_VERY_SLOW;
-	}
-	else if ((iTempHigh > 35) && (iTempHigh <= 42))
-	{
-		FAN_ActualState = FAN_STATE_SLOW;
-	}
-	else if ((iTempHigh > 45) && (iTempHigh <= 53))
-	{
-		FAN_ActualState = FAN_STATE_MEDIUM;
-	}
-	else if ((iTempHigh > 57) && (iTempHigh <= 67))
-	{
-		FAN_ActualState = FAN_STATE_FAST;
-	}
-	else if (iTempHigh > 70)
-	{
-		FAN_ActualState = FAN_STATE_VERY_FAST;
-	}
-	
 	
 	// Ok, now set the FAN speed according to our setting
 	switch (FAN_ActualState)
@@ -115,7 +115,8 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	default:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_FAST);
 		break;
-	}	
+	}
+	
 		
 	// Ok, We're done...
 }

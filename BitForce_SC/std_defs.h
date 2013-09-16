@@ -106,7 +106,7 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 #define __ENGINE_ENABLE_TIMESTAMPING				  // Enable timestamping, meaning we mark the job initiation and termination
 #define __ENGINE_AUTHORITIVE_ACTIVITY_SUPERVISION	  // For one job per chip, you need this...
 //#define __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION   1 // The same as Activity-Supervision, except that it's used for progressive engine job loading system
-//#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       300 // Meaning after 300 consequtive failures, decommission the engine
+#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       100 // Meaning after 300 consequtive failures, decommission the engine
 
 // Used with __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION
 // #define ENABLED_SINGLE_JOB_ISSUE_MONITORING			// ASIC_job_issue sets time of its execution. If this time has taken more than a second, and it's still processing, then we restart the chips
@@ -188,11 +188,11 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 /////////////////////////////////////////////////////////////////////////
 // FAN SUBSYSTEM: FAN REMAIN AT FULL SPEED
-#define FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED	1
+//#define FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED	1
 
 // FAN SUBSYSTEM: FAN AT AUTO SPEED
 #if !defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
-	// Need to define fanspeed mode to auto
+	#define FAN_SUBSYSTEM_AUTO_MODE 1
 #endif
 
 
