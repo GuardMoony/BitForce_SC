@@ -28,51 +28,43 @@ volatile void FAN_SUBSYS_Initialize(void)
 
 volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 {
-	// We execute this function every 50th call
-	/*
-	static volatile char __attempt = 0;
-	
-	if (__attempt++ < 10) return;
-	
-	// It is the 50th call
-	__attempt = 0;
-	*/
 	
 	// Check temperature
 	volatile int iTemp1 = __AVR32_A2D_GetTemp1();
 	volatile int iTemp2 = __AVR32_A2D_GetTemp2();
-	volatile int iTempAveraged = (iTemp1 > iTemp2) ? iTemp1 : iTemp2; // (iTemp2 + iTemp1) / 2;
+	volatile int iTempHigh = 80;  // VERY HIGH SPEED MODE ( In case of problems with temp sensors )
 	
-	if (iTempAveraged > 80)
+	// Using averaged temp is risky. Preferring highest temp reading 
+	//volatile int iTempAveraged = (iTemp1 > iTemp2) ? iTemp1 : iTemp2; // (iTemp2 + iTemp1) / 2;
+	if ( iTemp1 >= iTemp2 ){ iTempHigh = iTemp1; }
+	else { iTempHigh = iTemp2; }
+	
+	// Check for critical temperature on either sensor
+	if ( iTempHigh >= 90 )  //Do this if only 1 reaches 90° ( in case 1 has a low amount of engines or  )
 	{
 		// Holy jesus! We're in a critical situation...
 		GLOBAL_CRITICAL_TEMPERATURE = TRUE;
+		// Set max fan speed
+		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_REMAIN_FULL_SPEED);
 			
 	}
-	else
+
+	if (GLOBAL_CRITICAL_TEMPERATURE == TRUE)
 	{
-		if (GLOBAL_CRITICAL_TEMPERATURE == TRUE)
-		{
-			if (iTempAveraged < 60) // Hysterysis
-			{ 
-				GLOBAL_CRITICAL_TEMPERATURE = FALSE;
-				
-				// Increase thermal cycle counter
-				GLOBAL_TOTAL_THERMAL_CYCLES++;
-				
-				// Also, restart the ASICs
-				#if defined(__ASICS_RESTART_AFTER_HIGH_TEMP_RECOVERY)
-					init_ASIC();				
-				#endif
-			}
-		}
-		else
-		{
-			// If we're here, it means we're not critical anymore
+		if (iTempHigh < 60) // Hysterysis
+		{ 
 			GLOBAL_CRITICAL_TEMPERATURE = FALSE;
-						
+				
+			// Increase thermal cycle counter
+			GLOBAL_TOTAL_THERMAL_CYCLES++;
+				
+			// Also, restart the ASICs
+			#if defined(__ASICS_RESTART_AFTER_HIGH_TEMP_RECOVERY)
+				init_ASIC();				
+			#endif
 		}
-	}	
+	}
+	
 	
 	// Do we remain at full speed? If so, get it done and return
 	#if defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
@@ -80,15 +72,28 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 		return;
 	#endif
 	
-	// Are we close to the critical temperature? Override FAN if necessary
-	if (iTempAveraged > 70)
+	// We're in AUTO mode... There are rules to respect form here...
+	if (iTempHigh <= 32)
 	{
-		// Override fan, set it to maximum
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_FAST);
-		
-		// We're done. The device will no longer process nonces
-		return;
+		FAN_ActualState = FAN_STATE_VERY_SLOW;
 	}
+	else if ((iTempHigh > 35) && (iTempHigh <= 42))
+	{
+		FAN_ActualState = FAN_STATE_SLOW;
+	}
+	else if ((iTempHigh > 45) && (iTempHigh <= 53))
+	{
+		FAN_ActualState = FAN_STATE_MEDIUM;
+	}
+	else if ((iTempHigh > 57) && (iTempHigh <= 67))
+	{
+		FAN_ActualState = FAN_STATE_FAST;
+	}
+	else if (iTempHigh > 70)
+	{
+		FAN_ActualState = FAN_STATE_VERY_FAST;
+	}
+	
 	
 	// Ok, now set the FAN speed according to our setting
 	switch (FAN_ActualState)
@@ -96,48 +101,21 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	case FAN_STATE_VERY_SLOW:
 		// Set the fan speed
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_SLOW);
-		return;
 		break;
 	case FAN_STATE_SLOW:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_SLOW);
-		return;
 		break;
 	case FAN_STATE_MEDIUM:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_MEDIUM);
-		return;
 		break;
 	case FAN_STATE_FAST:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_FAST);
-		return;
 		break;
 	case FAN_STATE_VERY_FAST:
+	default:
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_FAST);
-		return;
 		break;
-	}
-	
-	
-	// We're in AUTO mode... There are rules to respect form here...
-	if (iTempAveraged <= 30)
-	{
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_SLOW);
-	}		
-	else if ((iTempAveraged > 35) && (iTempAveraged <= 42))
-	{
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_SLOW);
-	}		
-	else if ((iTempAveraged > 45) && (iTempAveraged <= 53))
-	{
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_MEDIUM);	
-	}		
-	else if ((iTempAveraged > 57) && (iTempAveraged <= 67))
-	{
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_FAST);		
-	}		
-	else if (iTempAveraged > 70)
-	{	
-		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_VERY_FAST);		
-	}		
+	}	
 		
 	// Ok, We're done...
 }

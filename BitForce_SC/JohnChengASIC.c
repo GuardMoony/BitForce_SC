@@ -57,12 +57,6 @@ void SynchronizeSPI_Module(void)
 	__ASIC_WriteEngine(0, 0, 0, 0);
 	__ASIC_WriteEngine(0, 0, 0, 0);
 	
-	#if defined(__PRODUCT_MODEL_SINGLE__) || defined(__PRODUCT_MODEL_MINIRIG__)
-		__ASIC_WriteEngine(8, 0, 0, 0);
-		__ASIC_WriteEngine(8, 0, 0, 0);
-		__ASIC_WriteEngine(8, 0, 0, 0);
-		__ASIC_WriteEngine(8, 0, 0, 0);
-	#endif
 }
 
 //==================================================================

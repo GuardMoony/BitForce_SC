@@ -20,20 +20,10 @@
 //#define __OPERATING_FREQUENCY_48MHz__
 //#define __OPERATING_FREQUENCY_64MHz__
 
-/*************** Product Model *********************/
-//#define __PRODUCT_MODEL_JALAPENO__
-//#define    __PRODUCT_MODEL_LITTLE_SINGLE__
-#define __PRODUCT_MODEL_SINGLE__
-//#define __PRODUCT_MODEL_MINIRIG__
-
 /********* TOTAL CHIPS INSTALLED ON BOARD **********/
 /////////////////////////////////////////////////////////////////////////
+#define	 TOTAL_CHIPS_INSTALLED	8
 
-#if defined(__PRODUCT_MODEL_LITTLE_SINGLE__) || defined(__PRODUCT_MODEL_JALAPENO__)
-	#define	 TOTAL_CHIPS_INSTALLED	8
-#else
-	#define	 TOTAL_CHIPS_INSTALLED	16
-#endif
 
 /*************** Features modifying the code behaviour *****************/
 // Some useful macros
@@ -106,12 +96,7 @@
 extern const unsigned int __ASIC_FREQUENCY_WORDS[10];  // Values here are known...
 extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure frequency for each word...
 
-#if defined(__PRODUCT_MODEL_JALAPENO)
-	#define __ASIC_FREQUENCY_ACTUAL_INDEX   1 // 180MHz for Jalapeno
-#else	
-	#define __ASIC_FREQUENCY_ACTUAL_INDEX   7
-#endif
-
+#define __ASIC_FREQUENCY_ACTUAL_INDEX   7
 #define __MAXIMUM_FREQUENCY_INDEX       9
 
 /////////////////////////////////////////////////////////////////////////
@@ -156,19 +141,13 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 //// BEGIN
 //#define __RUN_SCATTERED_DIAGNOSTICS 		// Sends 45 different jobs and checks if all nonces were detected.
-#if defined(__PRODUCT_MODEL_MINIRIG__) || defined(__PRODUCT_MODEL_SINGLE__)
-	#define __TOTAL_SCATTERED_JOBS_TO_TEST 45
-#elif defined(__PRODUCT_MODEL_LITTLE_SINGLE__)
-	#define __TOTAL_SCATTERED_JOBS_TO_TEST 13
-#else // Jalapeno model
-	#define __TOTAL_SCATTERED_JOBS_TO_TEST 5
-#endif
+#define __TOTAL_SCATTERED_JOBS_TO_TEST 5
 //// END
 
 /////////////////////////////////////////////////////////////////////////
 // Total of runs we perform in diagnostics (for Engine busy-fault error)
 #define ASIC_DIAGNOSE_ENGINE_REMAINING_BUSY 1
-#define __TOTAL_DIAGNOSTICS_RUN  10
+#define __TOTAL_DIAGNOSTICS_RUN  5
 
 /////////////////////////////////////////////////////////////////////////
 // Report balancing 
@@ -209,15 +188,14 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 /////////////////////////////////////////////////////////////////////////
 // FAN SUBSYSTEM: FAN REMAIN AT FULL SPEED
-// #define FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED	1
+#define FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED	1
 
-/*
-#if defined(__PRODUCT_MODEL_LITTLE_SINGLE__) || defined(__PRODUCT_MODEL_JALAPENO__)
-	#if !defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
-		#error For this model of product, FAN subsystem is best remained at high-speed
-	#endif
+// FAN SUBSYSTEM: FAN AT AUTO SPEED
+#if !defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
+	// Need to define fanspeed mode to auto
 #endif
-*/
+
+
 
 ///////////////////////////////////////////////////////////////////////// 
 // XLINK Chain live scan
@@ -266,10 +244,6 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 // Error detection
 #if defined(ENABLED_SINGLE_JOB_ISSUE_MONITORING) && !defined(__ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION)
 	#error The feature ENABLED_SINGLE_JOB_ISSUE_MONITORING can only be used with __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION
-#endif
-
-#if (defined(__PRODUCT_MODEL_SINGLE__) || defined(__PRODUCT_MODEL_MINIRIG__)) && defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
-	#pragma  GCC warning "Using FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED with PRODUCT_MODEL_SINGLE or PRODUCT_MODEL_MINIRIG is not recommended"
 #endif
 
 #if defined(QUEUE_OPERATE_ONE_JOB_PER_CHIP)
@@ -378,8 +352,8 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 // Unit Identification String
 #define UNIT_FIRMWARE_ID_STRING	">>>>ID: BitFORCE SC SHA256 Version 1.0>>>>\n"
-#define UNIT_FIRMWARE_REVISION	">>>>REVISION 1.0>>>>"
-#define UNIT_FIRMWARE_TYPE		">>>>JALAPENO>>>>" // OR ">>>>MINIRIG>>>>" OR ">>>>SINGLE>>>>" OR ">>>>LITTLE-SINGLE>>>>"
+#define UNIT_FIRMWARE_REVISION	">>>>REVISION 1.0_MNY>>>>"
+#define UNIT_FIRMWARE_TYPE		">>>>JALAPENO>>>>" 
 #define UNIT_FIRMWARE_SPEED		">>>>32>>>>"
 
 // We define our UL32 and Unsigned Long Long
@@ -526,17 +500,18 @@ volatile unsigned int GLOBAL_LastJobIssueToAllEngines;
 #endif
 
 // FAN Controls
-#define FAN_CONTROL_BYTE_VERY_SLOW			(0b0010)
-#define FAN_CONTROL_BYTE_SLOW				(0b0100)
-#define FAN_CONTROL_BYTE_MEDIUM				(0b1000)
-#define FAN_CONTROL_BYTE_FAST				(0b0001)
-#define FAN_CONTROL_BYTE_VERY_FAST			(0b1111)
-#define FAN_CONTROL_BYTE_REMAIN_FULL_SPEED	(FAN_CTRL0 | FAN_CTRL1 | FAN_CTRL2 | FAN_CTRL3)	// Turn all mosfets off...
-
 #define FAN_CTRL0	 0b00001
 #define FAN_CTRL1	 0b00010
 #define FAN_CTRL2	 0b00100
 #define FAN_CTRL3	 0b01000
+
+#define FAN_CONTROL_BYTE_VERY_SLOW			(FAN_CTRL3)
+#define FAN_CONTROL_BYTE_SLOW				(FAN_CTRL2)
+#define FAN_CONTROL_BYTE_MEDIUM				(FAN_CTRL2 | FAN_CTRL3)
+#define FAN_CONTROL_BYTE_FAST				(FAN_CTRL0)
+#define FAN_CONTROL_BYTE_VERY_FAST			(FAN_CTRL0 | FAN_CTRL1)
+
+#define FAN_CONTROL_BYTE_REMAIN_FULL_SPEED	(FAN_CTRL0 | FAN_CTRL1 | FAN_CTRL2 | FAN_CTRL3)	// Turn all mosfets off...
 
 // For Debug
 // TODO: Remove when debugging done

@@ -49,7 +49,7 @@ volatile void Microkernel_Spin()
 		}	
 	#endif
 		
-	// Fan-Spin must be executed every 0.5 seconds
+	// Fan-Spin must be executed every 5 seconds
 	{
 		static volatile UL32 iInitialTimeHolder = 0;
 		volatile UL32 iActualTickHolder = MACRO_GetTickCountRet;
@@ -104,27 +104,25 @@ volatile void Microkernel_Spin()
 	}
 	
 	// Blink Chip LEDs if needed
-	#if defined(__PRODUCT_MODEL_LITTLE_SINGLE__) || defined(__PRODUCT_MODEL_JALAPENO__)
-	{
-		volatile unsigned char index_hover = 0;
+
+	volatile unsigned char index_hover = 0;
 		
-		for (index_hover = 0; index_hover < 8; index_hover++)
+	for (index_hover = 0; index_hover < 8; index_hover++)
+	{
+		if (CHIP_EXISTS(index_hover))
 		{
-			if (CHIP_EXISTS(index_hover))
+			if (GLOBAL_ChipActivityLEDCounter[index_hover] != 0) 
 			{
-				if (GLOBAL_ChipActivityLEDCounter[index_hover] != 0) 
-				{
-					MCU_LED_Reset(index_hover+1);  // LEDs are 1based
-					GLOBAL_ChipActivityLEDCounter[index_hover]--; 
-				} 
-				else 
-				{ 
-					MCU_LED_Set(index_hover+1);   // LEDs are 1based
-				}
-			}				
-		}			
-	}
-	#endif
+				MCU_LED_Reset(index_hover+1);  // LEDs are 1based
+				GLOBAL_ChipActivityLEDCounter[index_hover]--; 
+			} 
+			else 
+			{ 
+				MCU_LED_Set(index_hover+1);   // LEDs are 1based
+			}
+		}				
+	}			
+	
 	
 	// Should we Pulse?
 	{
@@ -247,26 +245,26 @@ volatile void Microkernel_Spin()
 	#endif	
 	
 	// Also update the LEDs (on small board model)
-	#if defined(__PRODUCT_MODEL_LITTLE_SINGLE__) || defined(__PRODUCT_MODEL_JALAPENO__)
-		static char itAttempt = 0;
-		
-		if (itAttempt == 150)
-		{
-			itAttempt = 0;
-			if (ASIC_does_chip_exist(0) == TRUE) MCU_LED_Set(1); else MCU_LED_Reset(1);
-			if (ASIC_does_chip_exist(1) == TRUE) MCU_LED_Set(2); else MCU_LED_Reset(2);
-			if (ASIC_does_chip_exist(2) == TRUE) MCU_LED_Set(3); else MCU_LED_Reset(3);
-			if (ASIC_does_chip_exist(3) == TRUE) MCU_LED_Set(4); else MCU_LED_Reset(4);
-			if (ASIC_does_chip_exist(4) == TRUE) MCU_LED_Set(5); else MCU_LED_Reset(5);
-			if (ASIC_does_chip_exist(5) == TRUE) MCU_LED_Set(6); else MCU_LED_Reset(6);
-			if (ASIC_does_chip_exist(6) == TRUE) MCU_LED_Set(7); else MCU_LED_Reset(7);
-			if (ASIC_does_chip_exist(7) == TRUE) MCU_LED_Set(8); else MCU_LED_Reset(8);			
-		}
-		else
-		{
-			itAttempt++;
-		}
-	#endif
+
+	static char itAttempt = 0;
+	
+	if (itAttempt == 150)
+	{
+		itAttempt = 0;
+		if (ASIC_does_chip_exist(0) == TRUE) MCU_LED_Set(1); else MCU_LED_Reset(1);
+		if (ASIC_does_chip_exist(1) == TRUE) MCU_LED_Set(2); else MCU_LED_Reset(2);
+		if (ASIC_does_chip_exist(2) == TRUE) MCU_LED_Set(3); else MCU_LED_Reset(3);
+		if (ASIC_does_chip_exist(3) == TRUE) MCU_LED_Set(4); else MCU_LED_Reset(4);
+		if (ASIC_does_chip_exist(4) == TRUE) MCU_LED_Set(5); else MCU_LED_Reset(5);
+		if (ASIC_does_chip_exist(5) == TRUE) MCU_LED_Set(6); else MCU_LED_Reset(6);
+		if (ASIC_does_chip_exist(6) == TRUE) MCU_LED_Set(7); else MCU_LED_Reset(7);
+		if (ASIC_does_chip_exist(7) == TRUE) MCU_LED_Set(8); else MCU_LED_Reset(8);
+	}
+	else
+	{
+		itAttempt++;
+	}
+
 		
 	#if defined(GENERAL_ASIC_RESET_ON_LOW_ENGINE_COUNT)
 		// Check the time from last 

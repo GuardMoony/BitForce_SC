@@ -2,8 +2,8 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectVersion>6.0</ProjectVersion>
-    <ToolchainName>com.Atmel.AVRGCC32</ToolchainName>
+    <ProjectVersion>6.1</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC32.C</ToolchainName>
     <ProjectGuid>{9f8b22bb-744a-4d6f-83b5-780561e4126a}</ProjectGuid>
     <avrdevice>AT32UC3A1256</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
@@ -18,7 +18,7 @@
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfVersion>2.11.1</AsfVersion>
     <avrtool>com.atmel.avrdbg.tool.jtagicemk3</avrtool>
@@ -79,33 +79,50 @@
         </InterfaceProperties>
       </ToolOptions>
     </com_atmel_avrdbg_tool_jtagicemk3>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <BootSegment>2</BootSegment>
+    <AsfFrameworkConfig>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.3.0" />
+  </dependencies>
+</framework-data>
+    </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
-      <Avr32Gcc>
-        <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
-        <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
-        <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
-        <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
-        <avr32gcc.compiler.optimization.level>Optimize most (-O3)</avr32gcc.compiler.optimization.level>
-        <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
-        <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
-        <avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>True</avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>
-        <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
-        <avr32gcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>m</Value>
-          </ListValues>
-        </avr32gcc.linker.libraries.Libraries>
-        <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
-        <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
-        <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
-      </Avr32Gcc>
+      <Avr32Gcc xmlns="">
+  <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
+  <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
+  <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
+  <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
+  <avr32gcc.compiler.optimization.level>Optimize most (-O3)</avr32gcc.compiler.optimization.level>
+  <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
+  <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
+  <avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>True</avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>
+  <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
+  <avr32gcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avr32gcc.linker.libraries.Libraries>
+  <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
+  <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
+  <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
+</Avr32Gcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
-      <Avr32Gcc>
+      <Avr32Gcc xmlns="">
   <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
   <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
   <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
@@ -121,7 +138,7 @@
   <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
   <avr32gcc.linker.libraries.Libraries>
     <ListValues>
-      <Value>m</Value>
+      <Value>libm</Value>
     </ListValues>
   </avr32gcc.linker.libraries.Libraries>
   <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
