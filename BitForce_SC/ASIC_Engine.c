@@ -164,38 +164,7 @@ void init_ASIC(void)
 		#if defined(ENFORCE_USAGE_CHIP_7)
 			__chip_existence_map[7] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
 		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_8)
-			__chip_existence_map[8] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_9)
-			__chip_existence_map[9] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_10)
-			__chip_existence_map[10] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_11)
-			__chip_existence_map[11] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_12)
-			__chip_existence_map[12] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_13)
-			__chip_existence_map[13] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-		
-		#if defined(ENFORCE_USAGE_CHIP_14)
-			__chip_existence_map[14] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif
-																														
-		#if defined(ENFORCE_USAGE_CHIP_15)
-			__chip_existence_map[15] = 0xFFFFFFFE; // ENGINE ZERO NOT USED
-		#endif		
+				
 		
 		// Frequency tune the chips
 		#if !defined(__DO_NOT_TUNE_CHIPS_FREQUENCY)
@@ -290,18 +259,18 @@ void ASIC_run_heavy_diagnostics()
 			
 	// DB0280CA 5817463E AA058769 C3B38F4E 2CB0FA08 F397200A D10172CB 913A8DC7 ,EB6C6880 51A1AE5F 1A016164
 	job_packet jpDiag;
-	jpDiag.midstate[0]  = 0xDB; jpDiag.midstate[1]  = 0x02; jpDiag.midstate[2] =  0x80; jpDiag.midstate[3] = 0xCA;
-	jpDiag.midstate[4]  = 0x58; jpDiag.midstate[5]  = 0x17; jpDiag.midstate[6] =  0x46; jpDiag.midstate[7] = 0x3E;
-	jpDiag.midstate[8]  = 0xAA; jpDiag.midstate[9]  = 0x05; jpDiag.midstate[10] = 0x87; jpDiag.midstate[11] = 0x69;
-	jpDiag.midstate[12] = 0xC3; jpDiag.midstate[13] = 0xB3; jpDiag.midstate[14] = 0x8F; jpDiag.midstate[15] = 0x4E;
-	jpDiag.midstate[16] = 0x2C; jpDiag.midstate[17] = 0xB0; jpDiag.midstate[18] = 0xFA; jpDiag.midstate[19] = 0x08;
-	jpDiag.midstate[20] = 0xF3; jpDiag.midstate[21] = 0x97; jpDiag.midstate[22] = 0x20; jpDiag.midstate[23] = 0x0A;
-	jpDiag.midstate[24] = 0xD1; jpDiag.midstate[25] = 0x01; jpDiag.midstate[26] = 0x72; jpDiag.midstate[27] = 0xCB;
-	jpDiag.midstate[28] = 0x91; jpDiag.midstate[29] = 0x3A; jpDiag.midstate[30] = 0x8D; jpDiag.midstate[31] = 0xC7;
+	jpDiag.midstate[0]  = 0xDB; jpDiag.midstate[1]  = 0x02; jpDiag.midstate[2] =  0x80; jpDiag.midstate[3] = 0xCA;  // DB0280CA
+	jpDiag.midstate[4]  = 0x58; jpDiag.midstate[5]  = 0x17; jpDiag.midstate[6] =  0x46; jpDiag.midstate[7] = 0x3E;  // 5817463E
+	jpDiag.midstate[8]  = 0xAA; jpDiag.midstate[9]  = 0x05; jpDiag.midstate[10] = 0x87; jpDiag.midstate[11] = 0x69; // AA058769
+	jpDiag.midstate[12] = 0xC3; jpDiag.midstate[13] = 0xB3; jpDiag.midstate[14] = 0x8F; jpDiag.midstate[15] = 0x4E; // C3B38F4E
+	jpDiag.midstate[16] = 0x2C; jpDiag.midstate[17] = 0xB0; jpDiag.midstate[18] = 0xFA; jpDiag.midstate[19] = 0x08; // 2CB0FA08
+	jpDiag.midstate[20] = 0xF3; jpDiag.midstate[21] = 0x97; jpDiag.midstate[22] = 0x20; jpDiag.midstate[23] = 0x0A; // F397200A
+	jpDiag.midstate[24] = 0xD1; jpDiag.midstate[25] = 0x01; jpDiag.midstate[26] = 0x72; jpDiag.midstate[27] = 0xCB; // D10172CB
+	jpDiag.midstate[28] = 0x91; jpDiag.midstate[29] = 0x3A; jpDiag.midstate[30] = 0x8D; jpDiag.midstate[31] = 0xC7; // 913A8DC7
 			
-	jpDiag.block_data[0] = 0xEB ; jpDiag.block_data[1] = 0x6C ;  jpDiag.block_data[2] = 0x68 ; jpDiag.block_data[3] = 0x80;
-	jpDiag.block_data[4] = 0x51 ; jpDiag.block_data[5] = 0xA1 ;  jpDiag.block_data[6] = 0xAE ; jpDiag.block_data[7] = 0x5F;
-	jpDiag.block_data[8] = 0x1A ; jpDiag.block_data[9] = 0x01 ;  jpDiag.block_data[10] = 0x61; jpDiag.block_data[11] = 0x64;
+	jpDiag.block_data[0] = 0xEB ; jpDiag.block_data[1] = 0x6C ;  jpDiag.block_data[2] = 0x68 ; jpDiag.block_data[3] = 0x80;  // EB6C6880 
+	jpDiag.block_data[4] = 0x51 ; jpDiag.block_data[5] = 0xA1 ;  jpDiag.block_data[6] = 0xAE ; jpDiag.block_data[7] = 0x5F;  // 51A1AE5F
+	jpDiag.block_data[8] = 0x1A ; jpDiag.block_data[9] = 0x01 ;  jpDiag.block_data[10] = 0x61; jpDiag.block_data[11] = 0x64; // 1A016164
 			
 			
 	const unsigned int iExpectedNonces[8] = {};
@@ -325,9 +294,9 @@ void ASIC_run_heavy_diagnostics()
 		}
 	}
 		
-	// What is the desired frequency? We'll wait for that much + 50%
+	// What is the desired frequency? We'll wait for that much + 25%
 	unsigned int iTimeToWait = (950 / __ASIC_FREQUENCY_VALUES[__ASIC_FREQUENCY_ACTUAL_INDEX]);
-	iTimeToWait += (iTimeToWait /2);
+	iTimeToWait += (iTimeToWait /4);
 	
 	MCU_MainLED_Set();
 		
@@ -394,12 +363,12 @@ void ASIC_run_heavy_diagnostics()
 				// This engine is DEAD!
 				bWasAnyEngineDecommissioned = TRUE;
 				DECOMMISSION_PROCESSOR(cDiagChip, cDiagEngine);
-			}
+			}  
 			else
 			{
 				// Meaning ASIC_JOB_NONCE_FOUND
 				#if defined(__HEAVY_DIAGNOSTICS_STRICT_8_NONCES)
-					if (iReadBackNonceCount != 8)
+					if (iReadBackNonceCount < 7)
 					{
 						// This engine is DEAD!
 						bWasAnyEngineDecommissioned = TRUE;
@@ -422,10 +391,8 @@ void ASIC_run_heavy_diagnostics()
 							DECOMMISSION_PROCESSOR(cDiagChip, cDiagEngine);
 							bWasAnyEngineDecommissioned = TRUE;
 						}
-						else
-						{
-							// We're clear! Let engine stay...
-						}
+
+						// We're clear! Let engine stay...
 					}
 					
 				#elif (__HEAVY_DIAGNOSTICS_MODERATE_7_NONCES)
@@ -1385,37 +1352,7 @@ void ASIC_Bootup_Chips()
 		iDisableFlag |= (1<<7);
 	#endif
 	
-	#if defined(DECOMISSION_CHIP_8)
-		iDisableFlag |= (1<<8);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_9)
-		iDisableFlag |= (1<<9);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_10)
-		iDisableFlag |= (1<<10);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_11)
-		iDisableFlag |= (1<<11);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_12)
-		iDisableFlag |= (1<<12);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_13)
-		iDisableFlag |= (1<<13);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_14)
-		iDisableFlag |= (1<<14);
-	#endif
-	
-	#if defined(DECOMISSION_CHIP_15)
-		iDisableFlag |= (1<<15);
-	#endif
+
 	// --------------------------------
 	
 	// Operates at 250MHz, all Engines ACTIVE
@@ -2980,38 +2917,6 @@ int ASIC_get_chip_count()
 	{
 		// Activate CS# of ASIC engines
 		__MCU_ASIC_Activate_CS((x_chip < 8) ? (1) : (2));		
-		
-		#if defined(DECOMISSION_CHIP_15)
-			if (x_chip == 15) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_14)
-			if (x_chip == 14) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_13)
-			if (x_chip == 13) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_12)
-			if (x_chip == 12) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_11)
-			if (x_chip == 11) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_10)
-			if (x_chip == 10) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_9)
-			if (x_chip == 9) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif		
-		
-		#if defined(DECOMISSION_CHIP_8)
-			if (x_chip == 8) { __chip_existence_map[x_chip] = 0; continue; }
-		#endif
 			
 		#if defined(DECOMISSION_CHIP_7)
 			if (x_chip == 7) { __chip_existence_map[x_chip] = 0; continue; }

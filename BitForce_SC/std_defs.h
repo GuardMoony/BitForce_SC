@@ -16,8 +16,8 @@
 
 /*************** Operating Frequency ******************/
 //#define __OPERATING_FREQUENCY_16MHz__
-#define __OPERATING_FREQUENCY_32MHz__ 
-//#define __OPERATING_FREQUENCY_48MHz__
+//#define __OPERATING_FREQUENCY_32MHz__ 
+#define __OPERATING_FREQUENCY_48MHz__
 //#define __OPERATING_FREQUENCY_64MHz__
 
 /********* TOTAL CHIPS INSTALLED ON BOARD **********/
@@ -103,10 +103,10 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 // Engine activity supervision
 // Enabling this feature will force the MCU to decommission the malfunctioning
 // engines detected on runtime
-#define __ENGINE_ENABLE_TIMESTAMPING				  // Enable timestamping, meaning we mark the job initiation and termination
+#define __ENGINE_ENABLE_TIMESTAMPING				  // Enable time stamping, meaning we mark the job initiation and termination
 #define __ENGINE_AUTHORITIVE_ACTIVITY_SUPERVISION	  // For one job per chip, you need this...
 //#define __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION   1 // The same as Activity-Supervision, except that it's used for progressive engine job loading system
-#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       100 // Meaning after 300 consequtive failures, decommission the engine
+#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       10 // Meaning after 300 consecutive failures, decommission the engine
 
 // Used with __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION
 // #define ENABLED_SINGLE_JOB_ISSUE_MONITORING			// ASIC_job_issue sets time of its execution. If this time has taken more than a second, and it's still processing, then we restart the chips
@@ -134,14 +134,14 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 //// BEGIN
 #define __RUN_HEAVY_DIAGNOSTICS_ON_EACH_ENGINE	1
-//#define __HEAVY_DIAGNOSTICS_STRICT_8_NONCES	1
-//#define __HEAVY_DIAGNOSTICS_MODERATE_7_NONCES	1
+//#define __HEAVY_DIAGNOSTICS_STRICT_8_NONCES	1   // BUGGED !
+//#define __HEAVY_DIAGNOSTICS_MODERATE_7_NONCES	1   // BUGGED !
 #define __HEAVY_DIAGNOSTICS_MODERATE_3_NONCES	1
 //// END
 
 //// BEGIN
 //#define __RUN_SCATTERED_DIAGNOSTICS 		// Sends 45 different jobs and checks if all nonces were detected.
-#define __TOTAL_SCATTERED_JOBS_TO_TEST 5
+#define __TOTAL_SCATTERED_JOBS_TO_TEST 7
 //// END
 
 /////////////////////////////////////////////////////////////////////////
@@ -207,14 +207,6 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 /////////////////////////////////////////////////////////////////////////
 // If this is defined, the chip will no longer be used
-// #define DECOMISSION_CHIP_15				1
-// #define DECOMISSION_CHIP_14				1
-// #define DECOMISSION_CHIP_13				1
-// #define DECOMISSION_CHIP_12				1
-// #define DECOMISSION_CHIP_11				1
-// #define DECOMISSION_CHIP_10				1
-// #define DECOMISSION_CHIP_9				1
-// #define DECOMISSION_CHIP_8				1
 // #define DECOMISSION_CHIP_7				1
 // #define DECOMISSION_CHIP_6				1
 // #define DECOMISSION_CHIP_5				1
@@ -223,14 +215,6 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 // #define DECOMISSION_CHIP_2				1
 // #define DECOMISSION_CHIP_1				1
 // #define DECOMISSION_CHIP_0				1
-// #define ENFORCE_USAGE_CHIP_15			1
-// #define ENFORCE_USAGE_CHIP_14			1
-// #define ENFORCE_USAGE_CHIP_13			1
-// #define ENFORCE_USAGE_CHIP_12			1
-// #define ENFORCE_USAGE_CHIP_11			1
-// #define ENFORCE_USAGE_CHIP_10			1
-// #define ENFORCE_USAGE_CHIP_9				1
-// #define ENFORCE_USAGE_CHIP_8				1
 // #define ENFORCE_USAGE_CHIP_7				1
 // #define ENFORCE_USAGE_CHIP_6				1
 // #define ENFORCE_USAGE_CHIP_5				1
@@ -354,7 +338,7 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 #define UNIT_FIRMWARE_ID_STRING	">>>>ID: BitFORCE SC SHA256 Version 1.0>>>>\n"
 #define UNIT_FIRMWARE_REVISION	">>>>REVISION 1.0_MNY>>>>"
 #define UNIT_FIRMWARE_TYPE		">>>>JALAPENO>>>>" 
-#define UNIT_FIRMWARE_SPEED		">>>>32>>>>"
+#define UNIT_FIRMWARE_SPEED		">>>>48>>>>"
 
 // We define our UL32 and Unsigned Long Long
 typedef unsigned long long UL64;

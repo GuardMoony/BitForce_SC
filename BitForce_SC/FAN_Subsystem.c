@@ -70,7 +70,9 @@ volatile void FAN_SUBSYS_IntelligentFanSystem_Spin(void)
 	#if defined(FAN_SUBSYSTEM_REMAIN_AT_FULL_SPEED)
 		__AVR32_FAN_SetSpeed(FAN_CONTROL_BYTE_REMAIN_FULL_SPEED);
 		return;
-	#else if defined(FAN_SUBSYSTEM_AUTO_MODE)
+	#endif
+	
+	#if defined(FAN_SUBSYSTEM_AUTO_MODE)
 	
 		// We're in AUTO mode... There are rules to respect form here...
 		if (iTempHigh <= 32)

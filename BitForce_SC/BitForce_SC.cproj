@@ -19,9 +19,9 @@
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <OverrideVtorValue>exception_table</OverrideVtorValue>
-    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <eraseonlaunchrule>1</eraseonlaunchrule>
     <AsfVersion>2.11.1</AsfVersion>
-    <avrtool>com.atmel.avrdbg.tool.jtagicemk3</avrtool>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
     <avrtoolinterface>JTAG</avrtoolinterface>
     <com_atmel_avrdbg_tool_jtagicemkii>
       <ToolType>com.atmel.avrdbg.tool.jtagicemkii</ToolType>
@@ -55,10 +55,6 @@
       <ToolType>com.atmel.avrdbg.tool.jtagicemk3</ToolType>
       <ToolName>JTAGICE3</ToolName>
       <ToolNumber>J30200015107</ToolNumber>
-      <KeepTimersRunning>true</KeepTimersRunning>
-      <OverrideVtor>false</OverrideVtor>
-      <OverrideVtorValue>
-      </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
         <port>60994</port>
@@ -67,7 +63,7 @@
       <ToolOptions>
         <InterfaceName>JTAG</InterfaceName>
         <InterfaceProperties>
-          <JtagDbgClock>7500000</JtagDbgClock>
+          <JtagDbgClock>0</JtagDbgClock>
           <JtagProgClock>1000000</JtagProgClock>
           <IspClock>150000</IspClock>
           <JtagInChain>false</JtagInChain>
@@ -86,67 +82,78 @@
     <BootSegment>2</BootSegment>
     <AsfFrameworkConfig>
       <framework-data>
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.3.0" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.3.0" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
+    <com_atmel_avrdbg_tool_avrdragon>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagEnableExtResetOnStartSession>false</JtagEnableExtResetOnStartSession>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
+      <ToolNumber>00A200046459</ToolNumber>
+      <ToolName>AVR Dragon</ToolName>
+    </com_atmel_avrdbg_tool_avrdragon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <Avr32Gcc xmlns="">
-  <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
-  <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
-  <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
-  <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
-  <avr32gcc.compiler.optimization.level>Optimize most (-O3)</avr32gcc.compiler.optimization.level>
-  <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
-  <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
-  <avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>True</avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>
-  <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
-  <avr32gcc.linker.libraries.Libraries>
-    <ListValues>
-      <Value>libm</Value>
-    </ListValues>
-  </avr32gcc.linker.libraries.Libraries>
-  <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
-  <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
-  <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
-</Avr32Gcc>
+        <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
+        <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
+        <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
+        <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
+        <avr32gcc.compiler.optimization.level>Optimize most (-O3)</avr32gcc.compiler.optimization.level>
+        <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
+        <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
+        <avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>True</avr32gcc.compiler.optimization.UseSectionRoDataForReadOnlyData>
+        <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
+        <avr32gcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avr32gcc.linker.libraries.Libraries>
+        <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
+        <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
+        <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
+      </Avr32Gcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <Avr32Gcc xmlns="">
-  <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
-  <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
-  <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
-  <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
-  <avr32gcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</avr32gcc.compiler.optimization.EnableUnsafeMatchOptimizations>
-  <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
-  <avr32gcc.compiler.optimization.GeneratePositionIndependentCode>True</avr32gcc.compiler.optimization.GeneratePositionIndependentCode>
-  <avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>True</avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>
-  <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
-  <avr32gcc.compiler.optimization.DebugLevel>Maximum (-g3)</avr32gcc.compiler.optimization.DebugLevel>
-  <avr32gcc.compiler.optimization.GenerateGprofInformation>True</avr32gcc.compiler.optimization.GenerateGprofInformation>
-  <avr32gcc.compiler.optimization.GenerateProfInformation>True</avr32gcc.compiler.optimization.GenerateProfInformation>
-  <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
-  <avr32gcc.linker.libraries.Libraries>
-    <ListValues>
-      <Value>libm</Value>
-    </ListValues>
-  </avr32gcc.linker.libraries.Libraries>
-  <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
-  <avr32gcc.linker.optimization.GeneratePositionIndependentCode>True</avr32gcc.linker.optimization.GeneratePositionIndependentCode>
-  <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
-  <avr32gcc.assembler.debugging.DebugLevel>Default (-g)</avr32gcc.assembler.debugging.DebugLevel>
-  <avr32gcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</avr32gcc.preprocessingassembler.debugging.DebugLevel>
-</Avr32Gcc>
+        <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
+        <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
+        <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
+        <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
+        <avr32gcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</avr32gcc.compiler.optimization.EnableUnsafeMatchOptimizations>
+        <avr32gcc.compiler.optimization.EnableFastMath>True</avr32gcc.compiler.optimization.EnableFastMath>
+        <avr32gcc.compiler.optimization.GeneratePositionIndependentCode>True</avr32gcc.compiler.optimization.GeneratePositionIndependentCode>
+        <avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>True</avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>
+        <avr32gcc.compiler.optimization.ForceDoubleWordAlignment>True</avr32gcc.compiler.optimization.ForceDoubleWordAlignment>
+        <avr32gcc.compiler.optimization.DebugLevel>Maximum (-g3)</avr32gcc.compiler.optimization.DebugLevel>
+        <avr32gcc.compiler.optimization.GenerateGprofInformation>True</avr32gcc.compiler.optimization.GenerateGprofInformation>
+        <avr32gcc.compiler.optimization.GenerateProfInformation>True</avr32gcc.compiler.optimization.GenerateProfInformation>
+        <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
+        <avr32gcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avr32gcc.linker.libraries.Libraries>
+        <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
+        <avr32gcc.linker.optimization.GeneratePositionIndependentCode>True</avr32gcc.linker.optimization.GeneratePositionIndependentCode>
+        <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
+        <avr32gcc.assembler.debugging.DebugLevel>Default (-g)</avr32gcc.assembler.debugging.DebugLevel>
+        <avr32gcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</avr32gcc.preprocessingassembler.debugging.DebugLevel>
+      </Avr32Gcc>
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
