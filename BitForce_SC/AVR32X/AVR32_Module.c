@@ -884,27 +884,7 @@ volatile inline unsigned int __AVR32_SC_GetDone  (char iChip)
 		{ \
 			MACRO__AVR32_SPI0_SendWord(0x0FFFF); \ 
 			x = (AVR32_SPI0_RDR & 0x0FFFF); \
-		}		
-		
-		
-// For 16 chip model, using SPI1
-#define MACRO__AVR32_SPI1_SendWord(x) \
-		{ \
-			AVR32_SPI1_TDR = (x & 0x0FFFF); \
-			while ((AVR32_SPI1_SR & (1 << 9)) == 0); \
-		}
-
-#define MACRO__AVR32_SPI1_SendWord_Express(x) \
-		{ \
-			AVR32_SPI1_TDR = (x & 0x0FFFF); \
-			while ((AVR32_SPI1_SR & (1 << 1)) == 0); \
-		}
-
-#define MACRO__AVR32_SPI1_ReadWord(x) \
-		{ \
-			MACRO__AVR32_SPI1_SendWord(0x0FFFF); \
-			x = (AVR32_SPI1_RDR & 0x0FFFF); \
-		}		
+		}			
 		
 
 inline unsigned int __AVR32_SC_ReadData (char iChip, char iEngine, unsigned char iAdrs)

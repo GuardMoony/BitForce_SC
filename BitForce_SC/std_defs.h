@@ -96,7 +96,7 @@
 extern const unsigned int __ASIC_FREQUENCY_WORDS[10];  // Values here are known...
 extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure frequency for each word...
 
-#define __ASIC_FREQUENCY_ACTUAL_INDEX   7
+#define __ASIC_FREQUENCY_ACTUAL_INDEX   9
 #define __MAXIMUM_FREQUENCY_INDEX       9
 
 /////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 #define __ENGINE_ENABLE_TIMESTAMPING				  // Enable time stamping, meaning we mark the job initiation and termination
 #define __ENGINE_AUTHORITIVE_ACTIVITY_SUPERVISION	  // For one job per chip, you need this...
 //#define __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION   1 // The same as Activity-Supervision, except that it's used for progressive engine job loading system
-#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       10 // Meaning after 300 consecutive failures, decommission the engine
+#define TOTAL_FAILURES_BEFORE_DECOMMISSIONING       50 // Meaning after 300 consecutive failures, decommission the engine
 
 // Used with __ENGINE_PROGRESSIVE_ACTIVITY_SUPERVISION
 // #define ENABLED_SINGLE_JOB_ISSUE_MONITORING			// ASIC_job_issue sets time of its execution. If this time has taken more than a second, and it's still processing, then we restart the chips
@@ -134,9 +134,14 @@ extern const unsigned int __ASIC_FREQUENCY_VALUES[10]; // We have to measure fre
 
 //// BEGIN
 #define __RUN_HEAVY_DIAGNOSTICS_ON_EACH_ENGINE	1
-//#define __HEAVY_DIAGNOSTICS_STRICT_8_NONCES	1   // BUGGED !
-//#define __HEAVY_DIAGNOSTICS_MODERATE_7_NONCES	1   // BUGGED !
-#define __HEAVY_DIAGNOSTICS_MODERATE_3_NONCES	1
+//#define __HEAVY_DIAGNOSTICS_STRICT_8_NONCES	1   // Engines cant handle 8
+#define __HEAVY_DIAGNOSTICS_STRICT_7_NONCES	1   // Engines cant handle 7
+//#define __HEAVY_DIAGNOSTICS_STRICT_5_NONCES	1
+//#define __HEAVY_DIAGNOSTICS_STRICT_3_NONCES	1
+//#define __HEAVY_DIAGNOSTICS_MODERATE_8_NONCES	1   // Engines cant handle 8
+//#define __HEAVY_DIAGNOSTICS_MODERATE_7_NONCES	1   // Engines cant handle 7
+//#define __HEAVY_DIAGNOSTICS_MODERATE_5_NONCES	1
+//#define __HEAVY_DIAGNOSTICS_MODERATE_3_NONCES	1
 //// END
 
 //// BEGIN
