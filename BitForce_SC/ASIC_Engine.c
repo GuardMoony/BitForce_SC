@@ -1885,6 +1885,8 @@ int ASIC_get_job_status(unsigned int *iNonceList, unsigned int *iNonceCount, con
 			// Check FIFO depths
 			unsigned int iLocNonceCount = 0;
 			unsigned int iLocNonceFlag[8] = {0,0,0,0,0,0,0,0};
+			//force collecting all Nonce's
+//			unsigned int iLocNonceFlag[8] = {1,1,1,1,1,1,1,1};
 					
 			// Check nonce existence
 			if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH1_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[0] = 1; }
@@ -1896,10 +1898,6 @@ int ASIC_get_job_status(unsigned int *iNonceList, unsigned int *iNonceCount, con
 			if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH7_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[6] = 1; }
 			if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH8_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[7] = 1; }
 				
-			//Do a force reading of last 3 nonce's if there not 0 add them ( for some reason the reg are not set for these )
-			iLocNonceCount++; iLocNonceFlag[5] = 1;
-			iLocNonceCount++; iLocNonceFlag[6] = 1;
-			iLocNonceCount++; iLocNonceFlag[7] = 1;
 				
 			// Do any nonces exist?
 			if (iLocNonceCount == 0)
@@ -1918,7 +1916,7 @@ int ASIC_get_job_status(unsigned int *iNonceList, unsigned int *iNonceCount, con
 				
 				// Proceed
 				continue;
-			}				 
+			}			 
 				
 			// Read them one by one
 			volatile unsigned int iNonceX = 0; 
@@ -2009,7 +2007,12 @@ int ASIC_get_job_status(unsigned int *iNonceList, unsigned int *iNonceCount, con
 				iNonceX = (__ASIC_ReadEngine(x_chip, y_engine, ASIC_SPI_FIFO7_LWORD)) |
 						  (__ASIC_ReadEngine(x_chip, y_engine, ASIC_SPI_FIFO7_HWORD) << 16); 
 				iNonceList[iDetectedNonces++] = iNonceX; 
-			}	
+			}
+			
+			//Now check for empty nonce's and deduct from iDetectedNonces
+			//for (int i=0;i<8; i++) {
+			//	if ( iNonceList[i] == 0 ) { iDetectedNonces--; }
+			//}	
 					
 			// Clear the engine [ NOTE : CORRECT !!!!!!!!!!!! ]
 			if (y_engine == 0)
@@ -2091,6 +2094,9 @@ int ASIC_get_job_status_from_engine(unsigned int *iNonceList,
 		unsigned int  iLocNonceCount = 0;
 		unsigned char iDetectedNonces = 0;
 		unsigned int iLocNonceFlag[8] = {0,0,0,0,0,0,0,0};
+		// Force collecting all nonce's
+//		unsigned int iLocNonceFlag[8] = {1,1,1,1,1,1,1,1};
+
 					
 		// Check nonce existence
 		if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH1_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[0] = 1; }
@@ -2101,12 +2107,6 @@ int ASIC_get_job_status_from_engine(unsigned int *iNonceList,
 		if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH6_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[5] = 1; }
 		if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH7_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[6] = 1; }
 		if ((i_status_reg & ASIC_SPI_READ_STATUS_FIFO_DEPTH8_BIT) != 0) { iLocNonceCount++; iLocNonceFlag[7] = 1; }
-		
-		//Do a force reading of last 3 nonce's if there not 0 add them ( for some reason the reg are not set for these )
-		iLocNonceCount++; iLocNonceFlag[5] = 1;
-		iLocNonceCount++; iLocNonceFlag[6] = 1;
-		iLocNonceCount++; iLocNonceFlag[7] = 1;
-
 				
 		// Do any nonces exist?
 		if (iLocNonceCount == 0)
@@ -2126,7 +2126,7 @@ int ASIC_get_job_status_from_engine(unsigned int *iNonceList,
 			__MCU_ASIC_Deactivate_CS((iChip < 8) ? (1) : (2));
 			return ASIC_JOB_NONCE_NO_NONCE;
 		}				 
-				
+						
 		// Read them one by one
 		volatile unsigned int iNonceX = 0;
 
@@ -2193,6 +2193,11 @@ int ASIC_get_job_status_from_engine(unsigned int *iNonceList,
 					  (__ASIC_ReadEngine(iChip, iEngine, ASIC_SPI_FIFO7_HWORD) << 16);
 			iNonceList[iDetectedNonces++] = iNonceX;
 		}
+		
+		//Now check for empty nonce's and deduct from iDetectedNonces
+		//for (int i=0;i<8; i++) {
+		//	if ( iNonceList[i] == 0 ) { iDetectedNonces--; } 
+		//}
 	
 		// Clear the engine [ NOTE : CORRECT !!!!!!!!!!!! ]
 		if (iEngine == 0)

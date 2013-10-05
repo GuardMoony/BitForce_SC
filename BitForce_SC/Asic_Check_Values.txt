@@ -1,0 +1,26 @@
+// Ok, now we read back results. All engines should have the following nonces
+	
+// 0F83379F,3E145360,64DD5309,C88E0D8E,DAFD7BE9,F4AD7CFD,F6DA3CAB,F9B1BC01
+
+260257695  1041519456  1692226313  3364752782  3674045417  4105010429  4141497515  4189174785
+
+job_packet jpDiag;
+	
+jpDiag.midstate[0]  = 0xDB; jpDiag.midstate[1]  = 0x02; jpDiag.midstate[2] =  0x80; jpDiag.midstate[3] = 0xCA;  // DB0280CA
+	jpDiag.midstate[4]  = 0x58; jpDiag.midstate[5]  = 0x17; jpDiag.midstate[6] =  0x46; jpDiag.midstate[7] = 0x3E;  // 5817463E
+	jpDiag.midstate[8]  = 0xAA; jpDiag.midstate[9]  = 0x05; jpDiag.midstate[10] = 0x87; jpDiag.midstate[11] = 0x69; // AA058769
+	jpDiag.midstate[12] = 0xC3; jpDiag.midstate[13] = 0xB3; jpDiag.midstate[14] = 0x8F; jpDiag.midstate[15] = 0x4E; // C3B38F4E
+	jpDiag.midstate[16] = 0x2C; jpDiag.midstate[17] = 0xB0; jpDiag.midstate[18] = 0xFA; jpDiag.midstate[19] = 0x08; // 2CB0FA08
+	jpDiag.midstate[20] = 0xF3; jpDiag.midstate[21] = 0x97; jpDiag.midstate[22] = 0x20; jpDiag.midstate[23] = 0x0A; // F397200A
+	jpDiag.midstate[24] = 0xD1; jpDiag.midstate[25] = 0x01; jpDiag.midstate[26] = 0x72; jpDiag.midstate[27] = 0xCB; // D10172CB
+	jpDiag.midstate[28] = 0x91; jpDiag.midstate[29] = 0x3A; jpDiag.midstate[30] = 0x8D; jpDiag.midstate[31] = 0xC7; // 913A8DC7
+			
+jpDiag.block_data[0] = 0xEB ; jpDiag.block_data[1] = 0x6C ;  jpDiag.block_data[2] = 0x68 ; jpDiag.block_data[3] = 0x80;  // EB6C6880 
+	jpDiag.block_data[4] = 0x51 ; jpDiag.block_data[5] = 0xA1 ;  jpDiag.block_data[6] = 0xAE ; jpDiag.block_data[7] = 0x5F;  // 51A1AE5F
+	jpDiag.block_data[8] = 0x1A ; jpDiag.block_data[9] = 0x01 ;  jpDiag.block_data[10] = 0x61; jpDiag.block_data[11] = 0x64; // 1A016164
+
+
+
+
+
+ASIC_job_issue_to_specified_engine(cDiagChip, cDiagEngine, &jpDiag, TRUE, TRUE, TRUE, 0xC78E0D8E, 0xF9C1BC01);
